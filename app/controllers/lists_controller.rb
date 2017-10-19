@@ -1,49 +1,49 @@
 class ListsController < ApplicationController
 
-
   def index
+    @lists = List.all
     @list = List.new
-    @lists = List.all
-  end
-
-  def create
-    @lists = List.all
-    @list = List.new(get_params)
-    if @list.save
-      redirect_to lists_path
-    else
-      render :index
-    end
   end
 
   def edit
     @list = List.find(params[:id])
   end
 
-  def update
-    @list = List.find(params[:id])
-    if @list.update(get_params)
+  def create
+    @list = List.new(list_params)
+    if @list.save
+      flash[:notice] = "Tasklist added !"
       redirect_to lists_path
     else
-      render :edit
+      redirect_to lists_path
+    end
+  end
+
+  def update
+    @list = List.find(params[:id])
+    if
+      @list.update_attributes(list_params)
+      redirect_to lists_path
+    else
+      render :index
     end
   end
 
   def destroy
     @list = List.find(params[:id])
     @list.destroy
+    flash[:alert] = "TaskList Deleted !"
     redirect_to lists_path
-  end
-
-  def new
-  end
-
-  def show
   end
 
   private
 
-  def get_params
+  def prepare_list
+    @list = List.find(params[:list_id])
+  end
+
+
+  def list_params
     params.require(:list).permit(:name)
   end
 
