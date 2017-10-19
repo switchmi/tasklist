@@ -1,1 +1,15 @@
+<div class="card text-center">
+  <div class="card-header">
+    Task Title: <%= @task.title %>
+  </div>
+  <div class="card-body">
+    <p class="card-text">Details: <%= @task.details %></p>
+    <p class="card-text">Due Date: <%= @task.due_date %></p>
+    <p><%= image_tag @task.task_image.url %></p>
 
+    <%= link_to 'Back to Task List', list_tasks_path(@list), class: "btn btn-primary" %>
+  </div>
+  <div class="card-footer text-muted">
+    Last updated: <%= @task.updated_at %>
+  </div>
+</div>

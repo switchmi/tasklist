@@ -3,5 +3,6 @@
 <%= f.input :title %>
 <%= f.input :details %>
 <%= f.input :due_date %>
-<%= f.button :submit %>
+<%= f.input :task_image, as: :file, label: 'Attachment' %>
+<%= f.button :submit, class: "btn btn-primary" %>
 <% end %>
