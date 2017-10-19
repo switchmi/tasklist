@@ -33,10 +33,13 @@ class TasksController < ApplicationController
   def destroy
     @task = List.find(params[:list_id]).tasks.find(params[:id])
     @task.destroy
+    @task.task_image = nil
     redirect_to list_tasks_path
   end
 
   def show
+    @list = List.find(params[:list_id])
+    @task = List.find(params[:list_id]).tasks.find(params[:id])
   end
 
   private
@@ -44,7 +47,7 @@ class TasksController < ApplicationController
   def get_params
 
     params.require(:task).permit(:title, :details, :due_date, :task_image)
-    
+
   end
 
 end
