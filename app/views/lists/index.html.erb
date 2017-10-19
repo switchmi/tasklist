@@ -1,2 +1,47 @@
-<h1>Lists#index</h1>
-<p>Find me in app/views/lists/index.html.erb</p>
+
+<div class="container">
+<h1>My Task List</h1>
+</div>
+
+  <div class="container">
+    <table class="table table-bordered">
+    <% if flash[:alert] %>
+    <h3 class="notice"><%= flash[:alert] %></h3>
+    <% end %>
+    <thead class="thead">
+        <th>
+          <%= simple_form_for @list, url: lists_path(@list), as: 'list' do |f| %>
+          <%= f.input :name, label: "Add New TaskList" , placeholder: "e.g. Party Planning"%>
+          <%= f.button :submit, label: "Add to Lists", class: "btn btn-primary" %>
+            <% if flash[:notice] %>
+            <a class="notice"><%= flash[:notice] %></a>
+            <% end %>
+        </th>
+        <% end %>
+  </div>
+
+  <table class="table table-bordered ">
+    <% index = 0 %>
+    <thead class="thead">
+      <th>No.</th>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </thead>
+      <tr>
+        <% @lists.each do |list| %>
+        <td>
+          <% index += 1 %><%= index %>
+        </td>
+        <td><%= list.name %></td>
+        <td><%= link_to 'Edit', edit_list_path(list), method: :get %>
+        </td>
+        <td><%= link_to 'Show', list_tasks_path(list), method: :get %></td>
+        <td><%= link_to 'Destroy', list_path(list), method: :delete %></td>
+      </tr>
+      <% end %>
+    </table>
+
+<script src="jquery.sortable.js"></script>
+<script>
+  $('.sortable').sortable();
+</script>
