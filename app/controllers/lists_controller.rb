@@ -1,8 +1,12 @@
 class ListsController < ApplicationController
 
   def index
-    @lists = List.all
     @list = List.new
+    @lists = if params[:search]
+      List.where('name LIKE?', "%#{params[:search]}%")
+    else
+      List.all
+    end
   end
 
   def edit
@@ -44,7 +48,7 @@ class ListsController < ApplicationController
 
 
   def list_params
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, :search)
   end
 
 end
