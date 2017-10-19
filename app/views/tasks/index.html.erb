@@ -1,14 +1,15 @@
-<h1>Task List: <%= @list.name %></h1>
+<h1 class="task-header">Task List: <%= @list.name %></h1>
 
-<table class='table'>
-  <thead class="thead">
+<table class='table table table-striped table-bordered table-hover'>
+  <thead class="thead-default">
     <th>No.</th>
     <th>Name </th>
     <th>Description</th>
     <th>Created</th>
     <th>Due Date</th>
     <th>Attachment</th>
-    <th colspan="2">Options</th>
+    <th>Status</th>
+    <th colspan="3">Options</th>
   </thead>
   <% index = 0 %>
   <% @tasks.each do |task| %>
@@ -20,6 +21,13 @@
     <td><%= task.created_at.to_date%></td>
     <td><%= task.due_date%></td>
     <td><%= image_tag task.task_image.url(:thumb) %></td>
+    <td>
+      <%if task.completed%>
+        <span class="badge badge-success">Completed</span>
+      <%else%>
+        <span class="badge badge-info">In Progress</span>
+      <%end%>
+    </td>
     <td><%= link_to 'Edit', edit_list_task_path(@list,task), method: :get%></td>
     <td><%= link_to 'Show', list_task_path(@list,task), method: :get%></td>
     <td><%= link_to 'Destroy', list_task_path(@list,task), method: :delete%></td>
@@ -35,6 +43,7 @@
 <%= f.input :details , label: 'Details of Task'%>
 <%= f.input :due_date %>
 <!-- <%= f.input :task_image, as: :file, label: 'Attachment:', placeholder:'e.g. www.google.com/image.png' %> -->
+<%= f.input :completed, as: :boolean %>
 <%= f.input :task_image, as: :file, label: 'Attachment:', placeholder:'e.g. www.google.com/image.png' %>
 <%= f.button :submit, class: "btn btn-primary" %>
 <% end %>

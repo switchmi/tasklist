@@ -1,3 +1,15 @@
 // Place all the styles related to the tasks controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.task-header {
+  text-align: center;
+}
+
+.card-completed {
+  background-color: #a7e86f;
+}
+
+.completed {
+  color: black;
+  font-weight:bold;
+}

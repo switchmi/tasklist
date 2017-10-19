@@ -4,5 +4,6 @@
 <%= f.input :details %>
 <%= f.input :due_date %>
 <%= f.input :task_image, as: :file, label: 'Attachment' %>
+<%= f.input :completed, as: :boolean %>
 <%= f.button :submit, class: "btn btn-primary" %>
 <% end %>

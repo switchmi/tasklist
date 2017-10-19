@@ -2,11 +2,20 @@
   <div class="card-header">
     Task Title: <%= @task.title %>
   </div>
-  <div class="card-body">
+  <div class="card-body
+  <%if @task.completed%>
+    card-completed
+  <% end %>
+
+  ">
     <p class="card-text">Details: <%= @task.details %></p>
     <p class="card-text">Due Date: <%= @task.due_date %></p>
     <p><%= image_tag @task.task_image.url %></p>
-
+    <%if @task.completed%>
+      <p class="card-text completed">Completed!</p>
+    <% else %>
+      <p class="card-text">In progress</p>
+    <% end %>
     <%= link_to 'Back to Task List', list_tasks_path(@list), class: "btn btn-primary" %>
   </div>
   <div class="card-footer text-muted">
