@@ -1,0 +1,7 @@
+<h1>Edit Task</h1>
+<%= simple_form_for @task, url: list_task_path(@list, @task), method: :patch do |f| %>
+<%= f.input :title %>
+<%= f.input :details %>
+<%= f.input :due_date %>
+<%= f.button :submit %>
+<% end %>

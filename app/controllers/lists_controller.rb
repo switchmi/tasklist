@@ -15,7 +15,7 @@ class ListsController < ApplicationController
       flash[:notice] = "Tasklist added !"
       redirect_to lists_path
     else
-      render :new
+      redirect_to lists_path
     end
   end
 
@@ -36,18 +36,15 @@ class ListsController < ApplicationController
     redirect_to lists_path
   end
 
-  def show
-  end
-
-
-
-private
+  private
 
   def prepare_list
     @list = List.find(params[:list_id])
   end
 
+
   def list_params
     params.require(:list).permit(:name)
   end
+
 end
