@@ -1,6 +1,18 @@
-<h1>Edit Task</h1>
+<br>
 
-<%= simple_form_for @list do |f| %>
-  <%= f.input :name %>
-  <%= f.button :submit %>
-<% end %>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="http://localhost:3000/lists">
+    <img src="/assets/list.png" width="180 height="auto"></img>
+  </a>
+    <h4 class="card-title ">Edit List Title</h4>
+    <p class="card-text">
+      <%= simple_form_for @list do |f| %>
+      <%= f.input :name, :label =>false, :class => 'form-control mr-sm-2'%>
+      <a><%= f.button :submit, :class =>"btn btn-outline-info"%>
+    <% end %>
+    </p>
+
+</div>
+</div>

@@ -1,51 +1,62 @@
 
-<div class="container">
-<h1>My Task List</h1>
+  <div class="container">
+    <div class="container">
+      <a href="http://localhost:3000/list"><img src="/assets/lineup.png" width="240" height="auto"></img></a>
+    </div>
+    <div class="breadcrumb" id="top">
+      <div class="row">
+      <div class="headbox form-inline ">
+      <%= form_tag(lists_path,  method: :get) do %>
+        <%= text_field_tag :search, params[:search], :class => 'form-control mr-sm-2'%>
+        <%= submit_tag 'Search', name: nil, :class =>'btn btn-outline-info my-2 my-sm-0'%>
+        <% end %>
+      </div>
+
+            <%= simple_form_for @list, html: {class: 'form-inline'}, url: lists_path(@list), as: 'list' do |f| %>
+            <%= f.input :name, label: false , placeholder: "Add a new task list! "%>
+            <%= f.button :submit, :label =>"Save", :class => "btn btn-outline-info" %>
+              <% if flash[:notice] %>
+              <a class="notice"> = <%= flash[:notice] %> = </a>
+              <% end %>
+              <% if flash[:alert] %>
+              <a class="notice"> = <%= flash[:alert] %> = </a>
+              <% end %>
+          <% end %>
+          <br>
+    </div>
 </div>
 
-  <div class="container">
-    <table class="table table-bordered">
-    <% if flash[:alert] %>
-    <h3 class="notice"><%= flash[:alert] %></h3>
-    <% end %>
-    <thead class="thead">
-        <th>
-          <%= simple_form_for @list, url: lists_path(@list), as: 'list' do |f| %>
-          <%= f.input :name, label: "Add New TaskList" , placeholder: "e.g. Party Planning"%>
-          <%= f.button :submit, label: "Add to Lists", class: "btn btn-primary" %>
-            <% if flash[:notice] %>
-            <a class="notice"><%= flash[:notice] %></a>
-            <% end %>
-        </th>
-        <% end %>
-  </div>
-<!--search-->
-  <div class="container">
-    <%= form_tag(lists_path, method: :get) do %>
-      <p>
-          <%= text_field_tag :search, params[:search] %>
-          <%= submit_tag 'Search', name: nil%>
-      </p>
-    <% end %>
-  </div>
-<!--search-->
-  <table class="table table-bordered ">
+  <table class="table table-hover">
     <% index = 0 %>
     <thead class="thead">
       <th>No.</th>
       <th>Title</th>
-      <th colspan="3"></th>
+      <th>Progress</th>
     </thead>
       <tr>
         <% @lists.each do |list| %>
         <td>
           <% index += 1 %><%= index %>
         </td>
-        <td><%= list.name %></td>
-        <td><%= link_to 'Edit', edit_list_path(list), method: :get %>
+        <td><%= link_to list.name, list_tasks_path(list), method: :get %>
         </td>
-        <td><%= link_to 'Show', list_tasks_path(list), method: :get %></td>
-        <td><%= link_to 'Destroy', list_path(list), method: :delete %></td>
+        <td>
+          <% if list.tasks.count == 0 %>
+            N/A
+          <% else %>
+            <%= completed_sum = list.tasks.where("completed = true").count.to_f
+              ((completed_sum/list.tasks.count) * 100).to_i
+               %>%
+          <% end %>
+        </td>
+
+        <td><%= button_to 'Edit', edit_list_path(list), method: :get, :class => "btn btn-outline-success" %>
+        </td>
+        <td></td>
+        <td><%= button_to 'Destroy', list_path(list), method: :delete, :class => "btn btn-outline-danger" %></td>
       </tr>
       <% end %>
     </table>
+    <strong><a href="#top"> &#8593;Back to Top</a></strong>
+  </div>
+</div>

@@ -1,42 +1,60 @@
-<h1 class="task-header">Task List: <%= @list.name %></h1>
+<div class="container">
+  <br>
+  <br>
+  <div class="breadcrumb justify-content-end">
+    <div class="col-sm-4">
+      <a href="http://localhost:3000/lists"><img src="/assets/task.png" width="160" height="auto"></img></a>
+    </div>
+    <div class="headbox form-inline">
+      <%= form_tag(list_tasks_path, method: :get) do %>
+          <%= search_field_tag :term, params[:term], :class => 'form-control mr-sm-2' %>
+          <%= submit_tag 'Search', title: nil, :class =>'btn btn-outline-info my-2 my-sm-0' %>
+      <% end %>
+      </div>
+    </div>
+  </div>
 
-<table class='table table table-striped table-bordered table-hover'>
-  <thead class="thead-default">
-    <th>No.</th>
-    <th>Name </th>
-    <th>Description</th>
-    <th>Created</th>
-    <th>Due Date</th>
-    <th>Attachment</th>
-    <th>Status</th>
-    <th colspan="3">Options</th>
-  </thead>
-  <% index = 0 %>
-  <% @tasks.each do |task| %>
-  <tbody>
+<div class="container">
+  <div class="row">
+    <h1 class="task-header">Task List: <%= @list.name %></h1>
+  </div>
+    <table class='table table-responsive table-hover'>
+      <thead class="thead-default">
+          <th>No.</th>
+          <th>Status</th>
+          <th>Title</th>
+          <th>Details</th>
+          <th>Created on</th>
+          <th>Due Date</th>
+          <th colspan="3"></th>
+          <th>Attachment</th>
+      </thead>
+        <% index = 0 %>
+        <% @tasks.each do |task| %>
+        <tbody>
+          <td><% index += 1 %> <%= index %></td>
+          <td>
+            <%if task.completed%>
+              <span class="badge badge-success">Completed</span>
+            <%else%>
+              <span class="badge badge-info">In Progress</span>
+            <%end%>
+          </td>
+          <td><%= task.title%></td>
+          <td><%= task.details%></td>
+          <td><%= task.created_at.to_date%></td>
+          <td><%= task.due_date%></td>
+          <td><%= button_to 'See Details', list_task_path(@list,task), method: :get, :class =>'btn btn-outline-info' %></td>
+          <td><%= button_to 'Edit', edit_list_task_path(@list,task), method: :get, :class =>'btn btn-outline-success' %></td>
+          <td><%= button_to 'Delete', list_task_path(@list,task), method: :delete, :class => "btn btn-outline-danger" %></td>
+          <td><%= image_tag task.task_image.url(:thumb) %></td>
+        </tbody>
+          <% end %>
+      </table>
 
-    <td><% index += 1 %> <%= index %></td>
-    <td><%= task.title%></td>
-    <td><%= task.details%></td>
-    <td><%= task.created_at.to_date%></td>
-    <td><%= task.due_date%></td>
-    <td><%= image_tag task.task_image.url(:thumb) %></td>
-    <td>
-      <%if task.completed%>
-        <span class="badge badge-success">Completed</span>
-      <%else%>
-        <span class="badge badge-info">In Progress</span>
-      <%end%>
-    </td>
-    <td><%= link_to 'Edit', edit_list_task_path(@list,task), method: :get%></td>
-    <td><%= link_to 'Show', list_task_path(@list,task), method: :get%></td>
-    <td><%= link_to 'Destroy', list_task_path(@list,task), method: :delete%></td>
-
-  </tbody>
-    <% end %>
-</table>
 <%= link_to 'Back to Task Lists', lists_path %>
 <hr />
+<div class="container">
 <h3>Add Task</h3>
 <%= simple_form_for @task , url: list_tasks_path(@list), method: :post do |f| %>
 <%= f.input :title, error: 'Please enter a title!', placeholder: "e.g. Buy Hotdogs" %>
@@ -45,5 +63,6 @@
 <!-- <%= f.input :task_image, as: :file, label: 'Attachment:', placeholder:'e.g. www.google.com/image.png' %> -->
 <%= f.input :completed, as: :boolean %>
 <%= f.input :task_image, as: :file, label: 'Attachment:', placeholder:'e.g. www.google.com/image.png' %>
-<%= f.button :submit, class: "btn btn-primary" %>
+<%= f.button :submit, class: "bbtn btn-outline-info" %>
 <% end %>
+</div>
