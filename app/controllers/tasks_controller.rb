@@ -1,8 +1,12 @@
 class TasksController < ApplicationController
   def index
     @list = List.find(params[:list_id])
-    @tasks = @list.tasks.all
     @task = @list.tasks.new
+    @tasks = if params[:term]
+      Task.where('title LIKE ?', "%#{params[:term]}%")
+    else
+      @tasks = @list.tasks.all
+    end
   end
 
   def create
@@ -42,11 +46,11 @@ class TasksController < ApplicationController
   private
 
   def get_params
-<<<<<<< HEAD
+
     params.require(:task).permit(:title, :details, :due_date, :task_image)
-=======
-    params.require(:task).permit(:title, :details, :due_date)
->>>>>>> 058b37b6c75544925572fa2573c91f268536ac01
+
+    params.require(:task).permit(:title, :details, :due_date, :term)
+
   end
 
 end
