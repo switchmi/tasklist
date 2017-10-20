@@ -19,17 +19,19 @@ class ListsController < ApplicationController
       flash[:notice] = "Tasklist added !"
       redirect_to lists_path
     else
+      flash[:notice] = "Cannot be blank !"
       redirect_to lists_path
     end
   end
 
   def update
+    @lists = List.all
     @list = List.find(params[:id])
     if
       @list.update_attributes(list_params)
       redirect_to lists_path
     else
-      render :index
+      render :edit
     end
   end
 

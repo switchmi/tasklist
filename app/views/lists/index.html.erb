@@ -1,48 +1,55 @@
 
   <div class="container">
-    <br>
-    <br>
-    <div class="breadcrumb justify-content-end">
-      <a href="http://localhost:3000/lists"><img src="/assets/lineup.png" width="200" height="auto"></img></a>
+    <div class="container">
+      <a href="http://localhost:3000/list"><img src="/assets/lineup.png" width="240" height="auto"></img></a>
+    </div>
+    <div class="breadcrumb" id="top">
+      <div class="row">
       <div class="headbox form-inline ">
       <%= form_tag(lists_path,  method: :get) do %>
         <%= text_field_tag :search, params[:search], :class => 'form-control mr-sm-2'%>
         <%= submit_tag 'Search', name: nil, :class =>'btn btn-outline-info my-2 my-sm-0'%>
         <% end %>
       </div>
-    </div>
 
-
-
-  <div class="card">
-      <div class="card-body">
-        <br>
             <%= simple_form_for @list, html: {class: 'form-inline'}, url: lists_path(@list), as: 'list' do |f| %>
             <%= f.input :name, label: false , placeholder: "Add a new task list! "%>
             <%= f.button :submit, :label =>"Save", :class => "btn btn-outline-info" %>
               <% if flash[:notice] %>
-              <a class="notice"> = <%= flash[:notice] %> =</a>
+              <a class="notice"> = <%= flash[:notice] %> = </a>
               <% end %>
               <% if flash[:alert] %>
-              <a class="notice"> = <%= flash[:alert] %> </a>
+              <a class="notice"> = <%= flash[:alert] %> = </a>
               <% end %>
           <% end %>
           <br>
-        </div>
     </div>
+</div>
 
   <table class="table table-hover">
     <% index = 0 %>
     <thead class="thead">
       <th>No.</th>
       <th>Title</th>
+      <th>Progress</th>
     </thead>
       <tr>
         <% @lists.each do |list| %>
         <td>
           <% index += 1 %><%= index %>
         </td>
-        <td colspan="2"><%= link_to list.name, list_tasks_path(list), method: :get %></td>
+        <td><%= link_to list.name, list_tasks_path(list), method: :get %>
+        </td>
+        <td>
+          <% if list.tasks.count == 0 %>
+            N/A
+          <% else %>
+            <%= completed_sum = list.tasks.where("completed = true").count.to_f
+              ((completed_sum/list.tasks.count) * 100).to_i
+               %>%
+          <% end %>
+        </td>
+
         <td><%= button_to 'Edit', edit_list_path(list), method: :get, :class => "btn btn-outline-success" %>
         </td>
         <td></td>
@@ -50,5 +57,6 @@
       </tr>
       <% end %>
     </table>
+    <strong><a href="#top"> &#8593;Back to Top</a></strong>
   </div>
 </div>

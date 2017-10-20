@@ -26,6 +26,7 @@ class TasksController < ApplicationController
   end
 
   def update
+    @list = List.find(params[:list_id])
     @task = List.find(params[:list_id]).tasks.find(params[:id])
     if @task.update(get_params)
       redirect_to list_tasks_path
@@ -37,20 +38,20 @@ class TasksController < ApplicationController
   def destroy
     @task = List.find(params[:list_id]).tasks.find(params[:id])
     @task.destroy
+    @task.task_image = nil
     redirect_to list_tasks_path
   end
 
   def show
+    @list = List.find(params[:list_id])
+    @task = List.find(params[:list_id]).tasks.find(params[:id])
   end
 
   private
 
   def get_params
 
-    params.require(:task).permit(:title, :details, :due_date, :task_image)
-
-    params.require(:task).permit(:title, :details, :due_date, :term)
-
+    params.require(:task).permit(:title, :details, :due_date, :task_image, :completed,:term)
   end
 
 end

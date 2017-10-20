@@ -1,7 +1,16 @@
-<h1>Edit Task</h1>
-<%= simple_form_for @task, url: list_task_path(@list, @task), method: :patch do |f| %>
-<%= f.input :title %>
-<%= f.input :details %>
-<%= f.input :due_date %>
-<%= f.button :submit %>
+<br>
+
+<div class="breadcrumb">
+  <div class="container">
+      <img src="/assets/task.png" width="180" height="auto"></img>
+<h4 class="card-title"><h3>Edit Task</h3>
+<div class="form-control mr-sm-2">
+  <%= simple_form_for @task, url: list_task_path(@list, @task), method: :patch do |f| %>
+  <%= f.input :title %>
+  <%= f.input :details %>
+  <%= f.input :due_date %>
+  <%= f.input :task_image, as: :file, label: 'Attachment' %>
+<%= f.input :completed, as: :boolean %>
+<%= f.button :submit, class: "btn btn-outline-info" %>
 <% end %>
+</div>

@@ -41,6 +41,7 @@
  background-color: #FFF;}
 
  .headbox {
+   padding-right: 20px;
    list-style: none;
    display:inline;
    align-items: flex-end;
@@ -124,4 +125,11 @@ label.collection_check_boxes {
 }
 .card-body {
   padding-left: 20px;
+}
+.card-title {
+  align-content: center;
+}
+
+.breadcrumb {
+  padding-left: 50px;
 }
